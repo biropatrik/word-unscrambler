@@ -5,6 +5,8 @@
  */
 package controller;
 
+import client.WordsClient;
+import client.WordsEnClient;
 import client.WordsHuClient;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
@@ -17,9 +19,9 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean(name="unscramblerController", eager = true)
 @SessionScoped
 public class UnscramblerController {
+    private WordsClient wordsClient;
     private String letters;
     private ArrayList<String> foundWords = new ArrayList<>();
-    private WordsHuClient wordsHuClient;
 
     public String getLetters() {
         return letters;
@@ -29,14 +31,26 @@ public class UnscramblerController {
         this.letters = letters;
     }
     
-    public void searchWords(){
-        wordsHuClient = new WordsHuClient();
-        this.foundWords = wordsHuClient.wordUnscrambler_JSON(ArrayList.class, this.letters);
-        wordsHuClient.close();
-        this.letters = "";
-    }
-
     public ArrayList<String> getFoundWords() {
         return foundWords;
+    }
+    
+    public void searchWordsFromLetters(){
+        wordsClient = getWordsClientBySelectedLanguage();
+        this.foundWords = wordsClient.wordUnscrambler_JSON(ArrayList.class, this.letters);
+        wordsClient.close();
+        this.letters = "";
+    }
+    
+    private WordsClient getWordsClientBySelectedLanguage(){
+        WordsClient client = new WordsHuClient(); //Default
+        
+        switch(SessionController.getLanguage()){
+            case "EN":
+                client = new WordsEnClient();
+                break;
+        }
+        
+        return client;
     }
 }

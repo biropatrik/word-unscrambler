@@ -10,11 +10,11 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 
 /**
- * Jersey REST client generated for REST resource:WordsHuFacadeREST
- * [entity.wordshu]<br>
+ * Jersey REST client generated for REST resource:WordsEnFacadeREST
+ * [entity.wordsen]<br>
  * USAGE:
  * <pre>
- *        WordsHuClient client = new WordsHuClient();
+ *        WordsEnClient client = new WordsEnClient();
  *        Object response = client.XXX(...);
  *        // do whatever with response
  *        client.close();
@@ -22,15 +22,15 @@ import javax.ws.rs.client.WebTarget;
  *
  * @author Patrik
  */
-public class WordsHuClient extends WordsClient {
+public class WordsEnClient extends WordsClient{
 
     private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://192.168.1.78:8080/WordUnscramblerService/webresources";
 
-    public WordsHuClient() {
+    public WordsEnClient() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("entity.wordshu");
+        webTarget = client.target(BASE_URI).path("entity.wordsen");
     }
 
     @Override
@@ -62,20 +62,6 @@ public class WordsHuClient extends WordsClient {
     @Override
     public void edit_JSON(Object requestEntity, String id) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request(javax.ws.rs.core.MediaType.APPLICATION_JSON).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
-    }
-    
-    @Override
-    public <T> T getTenRandomWords_XML(Class<T> responseType) throws ClientErrorException {
-        WebTarget resource = webTarget;
-        resource = resource.path("getTenRandomWords");
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
-    }
-
-    @Override
-    public <T> T getTenRandomWords_JSON(Class<T> responseType) throws ClientErrorException {
-        WebTarget resource = webTarget;
-        resource = resource.path("getTenRandomWords");
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
     @Override
@@ -129,6 +115,20 @@ public class WordsHuClient extends WordsClient {
     }
 
     @Override
+    public <T> T getTenRandomWords_XML(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("getTenRandomWords");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+    }
+
+    @Override
+    public <T> T getTenRandomWords_JSON(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("getTenRandomWords");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    @Override
     public void remove(String id) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request().delete();
     }
@@ -137,4 +137,5 @@ public class WordsHuClient extends WordsClient {
     public void close() {
         client.close();
     }
+    
 }
