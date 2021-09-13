@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "WordsHu.findAll", query = "SELECT w FROM WordsHu w"),
     @NamedQuery(name = "WordsHu.findById", query = "SELECT w FROM WordsHu w WHERE w.id = :id"),
     @NamedQuery(name = "WordsHu.findByWord", query = "SELECT w FROM WordsHu w WHERE w.word = :word"),
-    @NamedQuery(name = "WordsHu.findByLength", query = "SELECT w.word FROM WordsHu w WHERE LENGTH(w.word) > :length")})
+    @NamedQuery(name = "WordsHu.findByLength", query = "SELECT w.word FROM WordsHu w WHERE LENGTH(w.word) > :length")
+})
 public class WordsHu implements Serializable {
 
     private static final long serialVersionUID = 1L;

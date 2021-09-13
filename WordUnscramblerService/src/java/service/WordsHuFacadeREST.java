@@ -8,6 +8,7 @@ package service;
 import entity.WordsHu;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -103,7 +104,7 @@ public class WordsHuFacadeREST extends AbstractFacade<WordsHu> {
             for(int i=0; i<letters.length(); i++){
                 for(int j=0; j<charsOfWord.length; j++){
                     
-                    if(letters.charAt(i) == charsOfWord[j]){
+                    if(letters.toLowerCase().charAt(i) == charsOfWord[j]){
                         numberOfMatches--;
                         charsOfWord[j] = '_';
                         break;
@@ -117,6 +118,23 @@ public class WordsHuFacadeREST extends AbstractFacade<WordsHu> {
         return foundWords;
     }
 
+    @GET
+    @Path("getTenRandomWords")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public ArrayList<String> getTenRandomWords(){
+        ArrayList<String> words = (ArrayList<String>) em.createNamedQuery("WordsHu.findByLength")
+                                    .setParameter("length", 4)
+                                    .getResultList();
+        ArrayList<String> randomWords = new ArrayList<>();
+        
+        Random rnd = new Random();
+        for(int i=0; i<10; i++){
+            randomWords.add(words.get(rnd.nextInt(words.size())));
+        }
+        
+        return randomWords;
+    }
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
